@@ -26,15 +26,19 @@ import jakarta.ws.rs.core.Response.Status;
 @Tag(name = "restaurante")
 public class RestaurantResource {
 
+    // ///////////////////////////////
+    //            RESTAURANTE
+    // //////////////////////////////
+
     @GET  
     @Tag(name = "restaurante")
-    public List<Restaurant> search() {
+    public List<Restaurant> restaurantList() {
     	return Restaurant.listAll();
     }    
     @POST
     @Transactional
     @Tag(name = "restaurante")
-    public Response insert(Restaurant dto) {
+    public Response restaurantInsert(Restaurant dto) {
     	dto.persist();        
         return Response.status(Status.CREATED).build();
     }
@@ -42,7 +46,7 @@ public class RestaurantResource {
     @Path("{id}")
     @Tag(name = "restaurante")
     @Transactional
-    public void update(@PathParam("id") Long id, Restaurant dto){
+    public void restaurantUpdate(@PathParam("id") Long id, Restaurant dto){
        Optional<Restaurant> restaurantOp = Restaurant.findByIdOptional(id);        
        if(restaurantOp.isEmpty()){
         throw new NotFoundException();
@@ -56,7 +60,7 @@ public class RestaurantResource {
     @Path("{id}")
     @Tag(name = "restaurante")
     @Transactional
-    public void delete(@PathParam("id") Long id, Restaurant dto){
+    public void restaurantDelete(@PathParam("id") Long id, Restaurant dto){
        Optional<Restaurant> restaurantOp = Restaurant.findByIdOptional(id);        
        restaurantOp.ifPresentOrElse(Restaurant::delete, () -> {
             throw new NotFoundException();
