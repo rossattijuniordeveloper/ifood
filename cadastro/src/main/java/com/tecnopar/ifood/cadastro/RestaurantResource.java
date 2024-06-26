@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import org.eclipse.microprofile.openapi.annotations.tags.Tags;
 
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
