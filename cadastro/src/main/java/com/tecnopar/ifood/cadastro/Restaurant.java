@@ -15,7 +15,6 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "restaurant")
-//@SuppressWarnings("unused")
 public class Restaurant extends PanacheEntityBase {
 
 	@Id

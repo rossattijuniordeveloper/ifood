@@ -1,6 +1,7 @@
 services:
   database:
     image: 'postgres:12.2'
+    container_name: "ifood-database-1" 
     ports:
       - "5432:5432"
     env_file:
