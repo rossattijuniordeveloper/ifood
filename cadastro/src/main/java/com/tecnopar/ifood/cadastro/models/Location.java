@@ -1,4 +1,4 @@
-package com.tecnopar.ifood.cadastro;
+package com.tecnopar.ifood.cadastro.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

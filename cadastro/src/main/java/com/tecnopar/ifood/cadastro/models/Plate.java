@@ -1,5 +1,6 @@
-package com.tecnopar.ifood.cadastro;
+package com.tecnopar.ifood.cadastro.models;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,27 +14,28 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+
 @Entity
-@Table(name = "restaurant")
-public class Restaurant extends PanacheEntityBase {
+@Table(name = "plate")
+public class Plate extends PanacheEntityBase {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long id;	
+	public Long id;
 	
 	public String name;
 	
-	public String owner;
-	
-	public String document;
+	public String description;
 	
 	@ManyToOne
-	public Location location;
+	public Restaurant restaurant;
 	
-	@CreationTimestamp
+	public BigDecimal price;
+	
+	@CreationTimestamp	
 	public Date dataCriacao;
 	
 	@UpdateTimestamp
 	public Date dataAtualizacao;	
-
+	
 }

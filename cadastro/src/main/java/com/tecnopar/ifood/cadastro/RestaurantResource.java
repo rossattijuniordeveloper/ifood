@@ -5,6 +5,14 @@ import java.util.Optional;
 
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
+import com.tecnopar.ifood.cadastro.dto.PlateDTO;
+import com.tecnopar.ifood.cadastro.dto.RestaurantDTO;
+import com.tecnopar.ifood.cadastro.mapper.PlateMapper;
+import com.tecnopar.ifood.cadastro.mapper.RestaurantMapper;
+import com.tecnopar.ifood.cadastro.models.Plate;
+import com.tecnopar.ifood.cadastro.models.Restaurant;
+
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -29,6 +37,8 @@ public class RestaurantResource {
     // ///////////////////////////////
     //            RESTAURANTE
     // //////////////////////////////
+    @Inject
+    RestaurantMapper restaurantMapper;
 
     @GET  
     @Tag(name = "restaurante")
@@ -38,8 +48,9 @@ public class RestaurantResource {
     @POST
     @Transactional
     @Tag(name = "restaurante")
-    public Response restaurantInsert(Restaurant dto) {
-    	dto.persist();        
+    public Response restaurantInsert(RestaurantDTO dto) {
+        Restaurant restaurant = restaurantMapper.toRestaurant(dto);
+    	restaurant.persist();        
         return Response.status(Status.CREATED).build();
     }
     @PUT
@@ -47,6 +58,8 @@ public class RestaurantResource {
     @Tag(name = "restaurante")
     @Transactional
     public void restaurantUpdate(@PathParam("id") Long id, Restaurant dto){
+//        Restaurant restaurant =  restaurantMapper.toRestaurant(dto);
+
        Optional<Restaurant> restaurantOp = Restaurant.findByIdOptional(id);        
        if(restaurantOp.isEmpty()){
         throw new NotFoundException();
@@ -60,7 +73,7 @@ public class RestaurantResource {
     @Path("{id}")
     @Tag(name = "restaurante")
     @Transactional
-    public void restaurantDelete(@PathParam("id") Long id, Restaurant dto){
+    public void restaurantDelete(@PathParam("id") Long id, RestaurantDTO dto){
        Optional<Restaurant> restaurantOp = Restaurant.findByIdOptional(id);        
        restaurantOp.ifPresentOrElse(Restaurant::delete, () -> {
             throw new NotFoundException();
@@ -70,6 +83,9 @@ public class RestaurantResource {
     // ///////////////////////////////
     //            PRATOS
     // //////////////////////////////
+    @Inject
+    PlateMapper plateMapper;
+
     @GET  
     @Path("{idRestaurant}/plate")    
     @Tag(name = "prato")
@@ -84,15 +100,18 @@ public class RestaurantResource {
     @Path("{idRestaurant}/plate")
     @Transactional
     @Tag(name = "prato")
-    public Response insertPlate(@PathParam("idRestaurant") Long idRestaurant, Plate dto) {
+    public Response insertPlate(@PathParam("idRestaurant") Long idRestaurant, PlateDTO dto) {
+        
+        Plate plate = plateMapper.toPlate(dto);
+
         Optional<Restaurant> restaurantOp = Restaurant.findByIdOptional(idRestaurant);
         if(restaurantOp.isEmpty()){
             throw new NotFoundException("Restaurante não existe!");
         }
-        Plate plate = new Plate();
-        plate.name = dto.name;
-        plate.description = dto.description;
-        plate.price = dto.price;
+        // Plate plate = new Plate();
+        // plate.name = dto.name;
+        // plate.description = dto.description;
+        // plate.price = dto.price;
         plate.restaurant = restaurantOp.get();
         plate.persist();        
         return Response.status(Status.CREATED).build();
@@ -101,7 +120,7 @@ public class RestaurantResource {
     @Path("{idRestaurant}/plate/{id}")
     @Transactional
     @Tag(name = "prato")
-    public Response updatePlate(@PathParam("idRestaurant") Long idRestaurant,@PathParam("id") Long id, Plate dto){
+    public Response updatePlate(@PathParam("idRestaurant") Long idRestaurant,@PathParam("id") Long id, PLateDTO dto){
         Optional<Restaurant> restaurantOp = Restaurant.findByIdOptional(idRestaurant);
         if(restaurantOp.isEmpty()){
             throw new NotFoundException("Restaurante não existe!");

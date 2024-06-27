@@ -31,7 +31,7 @@
                 <version>${quarkus.platform.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
+            </dependency>            
         </dependencies>
     </dependencyManagement>
 
