@@ -18,7 +18,6 @@ public class CadastroTestLifecycleManager implements QuarkusTestResourceLifecycl
         properties.put("quarkus.datasource.url",POSTGRES.getJdbcUrl());
         properties.put("quarkus.datasource.username", POSTGRES.getUsername());
         properties.put("quarkus.datasource.password",POSTGRES.getPassword());
-//        System.out.println(properties);
         return properties;
     }
 
