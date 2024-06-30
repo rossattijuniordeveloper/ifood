@@ -135,7 +135,8 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+            <!--
+            <plugin>            
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler-plugin.version}</version>
                 <configuration>
@@ -144,6 +145,7 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
+            -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-plugin.version}</version>
@@ -168,14 +170,14 @@
                 <configuration>
                     <systemPropertyVariables>
                         <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
-                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+<!--                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager> -->
                         <maven.home>${maven.home}</maven.home>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>                
+                <artifactId>maven-compiler-plugin</artifactId> 
                 <version>3.5.1</version>
                 <configuration>
                     <source>1.8</source>
@@ -201,7 +203,22 @@
                         </arg>
                     </compilerArgs>
                 </configuration>
-            </plugin>            
+            </plugin>   
+<!--
+            <plugin>
+            <groupId>io.smallrye</groupId>
+            <artifactId>jandex-maven-plugin</artifactId>
+            <version>3.2.0</version>
+            <executions>
+                <execution>
+                <id>make-index</id>
+                <goals>
+                    <goal>jandex</goal>
+                </goals>
+                </execution>
+            </executions>
+            </plugin>                     
+-->                        
         </plugins>
     </build>
 

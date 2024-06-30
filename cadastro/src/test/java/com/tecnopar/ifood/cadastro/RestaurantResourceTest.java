@@ -1,10 +1,10 @@
 package com.tecnopar.ifood.cadastro;
 
-import static io.restassured.RestAssured.given;
+//import static io.restassured.RestAssured.given;
 
-import java.util.Optional;
+//import java.util.Optional;
 
-import org.approvaltests.Approvals;
+//import org.approvaltests.Approvals;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import jakarta.ws.rs.core.Response.Status;
+//import jakarta.ws.rs.core.Response.Status;
 
 @DBRider
 @DBUnit(caseInsensitiveStrategy = Orthography.LOWERCASE )

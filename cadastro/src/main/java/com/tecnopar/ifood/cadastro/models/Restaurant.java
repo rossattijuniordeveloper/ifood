@@ -2,6 +2,7 @@ package com.tecnopar.ifood.cadastro.models;
 
 import java.sql.Date;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -23,7 +24,7 @@ public class Restaurant extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;	
 	
-	public String name;
+	public String tradeName;
 	
 	public String owner;
 	
@@ -32,9 +33,11 @@ public class Restaurant extends PanacheEntityBase {
 	@OneToOne(cascade = CascadeType.ALL)
 	public Location location;
 	
+	@Schema(hidden =true)
 	@CreationTimestamp
 	public Date dataCriacao;
 	
+	@Schema(hidden =true)
 	@UpdateTimestamp
 	public Date dataAtualizacao;	
 

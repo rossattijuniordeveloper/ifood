@@ -12,6 +12,7 @@ import com.tecnopar.ifood.cadastro.mapper.RestaurantMapper;
 import com.tecnopar.ifood.cadastro.models.Plate;
 import com.tecnopar.ifood.cadastro.models.Restaurant;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -32,14 +33,12 @@ import jakarta.ws.rs.core.Response.Status;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Tag(name = "restaurante")
+//@ApplicationScoped
 public class RestaurantResource {
 
     // ///////////////////////////////
     //            RESTAURANTE
     // //////////////////////////////
-    @Inject
-    RestaurantMapper restaurantMapper;
-
     @GET  
     @Tag(name = "restaurante")
     public List<Restaurant> restaurantList() {
@@ -48,9 +47,12 @@ public class RestaurantResource {
     @POST
     @Transactional
     @Tag(name = "restaurante")
-    public Response restaurantInsert(RestaurantDTO dto) {
-        Restaurant restaurant = restaurantMapper.toRestaurant(dto);
-    	restaurant.persist();        
+    public Response restaurantInsert(Restaurant dto) {
+
+        // Restaurant restaurant = restaurantMapper.toRestaurant(dto);
+    	// restaurant.persist();        
+        //dto.persist();
+        dto.persist();
         return Response.status(Status.CREATED).build();
     }
     @PUT
@@ -65,7 +67,7 @@ public class RestaurantResource {
         throw new NotFoundException();
        }
        Restaurant restaurant = restaurantOp.get();
-       restaurant.name = dto.name;
+       restaurant.tradeName = dto.tradeName;
        restaurant.owner = dto.owner;
        restaurant.persist();
     }
@@ -73,7 +75,7 @@ public class RestaurantResource {
     @Path("{id}")
     @Tag(name = "restaurante")
     @Transactional
-    public void restaurantDelete(@PathParam("id") Long id, RestaurantDTO dto){
+    public void restaurantDelete(@PathParam("id") Long id, Restaurant dto){
        Optional<Restaurant> restaurantOp = Restaurant.findByIdOptional(id);        
        restaurantOp.ifPresentOrElse(Restaurant::delete, () -> {
             throw new NotFoundException();
@@ -83,9 +85,6 @@ public class RestaurantResource {
     // ///////////////////////////////
     //            PRATOS
     // //////////////////////////////
-    @Inject
-    PlateMapper plateMapper;
-
     @GET  
     @Path("{idRestaurant}/plate")    
     @Tag(name = "prato")
@@ -100,18 +99,19 @@ public class RestaurantResource {
     @Path("{idRestaurant}/plate")
     @Transactional
     @Tag(name = "prato")
-    public Response insertPlate(@PathParam("idRestaurant") Long idRestaurant, PlateDTO dto) {
+    public Response insertPlate(@PathParam("idRestaurant") Long idRestaurant, Plate dto) {
         
-        Plate plate = plateMapper.toPlate(dto);
+//        Plate plate = plateMapper.toPlate(dto);
+
 
         Optional<Restaurant> restaurantOp = Restaurant.findByIdOptional(idRestaurant);
         if(restaurantOp.isEmpty()){
             throw new NotFoundException("Restaurante não existe!");
         }
-        // Plate plate = new Plate();
-        // plate.name = dto.name;
-        // plate.description = dto.description;
-        // plate.price = dto.price;
+        Plate plate = new Plate();
+        plate.name = dto.name;
+        plate.description = dto.description;
+        plate.price = dto.price;
         plate.restaurant = restaurantOp.get();
         plate.persist();        
         return Response.status(Status.CREATED).build();
@@ -120,7 +120,7 @@ public class RestaurantResource {
     @Path("{idRestaurant}/plate/{id}")
     @Transactional
     @Tag(name = "prato")
-    public Response updatePlate(@PathParam("idRestaurant") Long idRestaurant,@PathParam("id") Long id, PLateDTO dto){
+    public Response updatePlate(@PathParam("idRestaurant") Long idRestaurant,@PathParam("id") Long id, Plate dto){
         Optional<Restaurant> restaurantOp = Restaurant.findByIdOptional(idRestaurant);
         if(restaurantOp.isEmpty()){
             throw new NotFoundException("Restaurante não existe!");

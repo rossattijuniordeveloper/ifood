@@ -1,5 +1,9 @@
 package com.tecnopar.ifood.cadastro.models;
 
+
+
+import io.quarkus.panache.common.Sort.Column;
+import jakarta.enterprise.inject.Default;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,10 +16,10 @@ public class Location {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	public Long id;
+		
+	public Double latitude;
 	
-	private Double latitude;
-	
-	private Double longitude;
+	public  Double longitude;
 	
 }
